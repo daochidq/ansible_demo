@@ -13,7 +13,7 @@
     - name: Create default index page
       copy:
         dest: /usr/share/nginx/html/index.html
-        content: "If you see this message, Ansible successfully installed nginx. {{ valut_data }}"
+        content: "If you see this message, Ansible successfully installed nginx. The secret retrieved from Hashicrop Vault is: {{ valut_data }}"
 
     - name: start Nginx
       service: name=nginx state=started
