@@ -10,8 +10,10 @@
     - name: Installs Nginx web server
       yum: pkg=nginx state=present
 
-    - name: Upload default index.html for host
-      copy: src=./index.html dest=/usr/share/nginx/html/ mode=0644
+    - name: Create default index page
+      copy:
+        dest: /usr/share/nginx/html/index.html
+        content: "If you see this message, Ansible successfully installed nginx. {{ valut_data }}"
 
     - name: start Nginx
       service: name=nginx state=started
