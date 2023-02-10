@@ -9,11 +9,11 @@
 
     - name: Installs Nginx web server
       yum: pkg=nginx state=present
-      notify:
-        - start nginx
 
     - name: Upload default index.html for host
       copy: src=./index.html dest=/usr/share/nginx/html/ mode=0644
+      notify:
+        - start nginx
 
     - name: start Nginx
       service: name=nginx state=started
