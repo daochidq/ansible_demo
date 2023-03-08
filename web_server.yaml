@@ -10,10 +10,37 @@
     - name: Installs Nginx web server
       yum: pkg=nginx state=present
 
-    - name: Create default index page
+    - name: Create authorized user index page
       copy:
         dest: /usr/share/nginx/html/index.html
-        content: "If you see this message, Ansible successfully installed nginx. The secret retrieved from Hashicrop Vault is: {{ valut_data }}"
+        content: "<html>
+                    <head>
+                      <title>Hello Word</title>
+                    </head>
+                    <body>
+                    <h1>Hello Word by Ansible</h1>
+                    <h2>Hello {{username}}! You are an authorized user!</h2>
+                    <p>If you can see this, Ansible successfully installed nginx.</p>
+
+                    </body>
+                  </html>"
+      when: 
+        - username == 'admin'  
+        - password == 'password'
+    
+    - name: Create unauthorized user index page
+      copy:
+        dest: /usr/share/nginx/html/index.html
+        content: "<html>
+                    <head>
+                      <title>Hello Word</title>
+                    </head>
+                    <body>
+                    <h1>ACCESS DENIED</h1>
+                    <h2>Please check your username or password.</h2>
+                    </body>
+                  </html>"
+      when: (username != 'admin') or (password != 'password')
 
     - name: start Nginx
       service: name=nginx state=started
